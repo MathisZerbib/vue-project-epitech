@@ -1,10 +1,13 @@
 <template>
-  <form>
+  <form
+    style="height: 100px"
+    class="d-flex flex-row justify-content-around align-items-center"
+  >
     <div class="form-group">
       <label for="inputStartTime">Start Time</label>
       <input
         type="time"
-        class="form-control"
+        class="w-100"
         id="inputStartTime"
         placeholder="Enter a start time"
       />
@@ -16,7 +19,7 @@
       <label for="inputEndTime">End Time</label>
       <input
         type="time"
-        class="form-control"
+        class="w-100"
         id="inputEndTime"
         placeholder="Enter the End time"
       />

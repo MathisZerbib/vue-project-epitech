@@ -9,6 +9,7 @@
     :styles="styles"
     :width="width"
     :height="height"
+    :timer="timer" 
   />
 </template>
 
@@ -24,6 +25,7 @@ import {
 } from "chart.js";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
+const TIME_LIMIT = 60;
 
 export default {
   name: "DoughnutChart",
@@ -50,6 +52,7 @@ export default {
   },
   data() {
     return {
+      timer: 50,
       chartData: {
         labels: ["Temps travaillé", "Temps restant"],
         datasets: [
@@ -82,7 +85,7 @@ export default {
             ctx.font = fontSize + "em sans-serif";
             ctx.textBaseline = "middle";
 
-            var text = "4h 12m 30s",
+            var text = "4h 30m 60s",
               textX = Math.round((width - ctx.measureText(text).width) / 2),
               textY = height / 2;
 
@@ -92,6 +95,17 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    countDownTimer() {
+      this.interval = setInterval(() => {
+        if (this.countDown === 0) {
+          clearInterval(this.interval);
+        } else {
+          this.countDown--;
+        }
+      }, 1000);
+    },
   },
   // const drawText = {
 
