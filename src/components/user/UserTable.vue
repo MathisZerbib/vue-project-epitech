@@ -10,14 +10,17 @@
     <table id="tableComponent" class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th v-for="col in columns" v-bind:key="col">{{ col }}</th>
+          <!-- <th v-for="col in columns" v-bind:key="col">{{ col }}</th> -->
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="user in users" v-bind:key="user">
           <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
+          <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td class="d-flex justify-content-center">
             <button
@@ -27,7 +30,7 @@
             >
               <BIconPencilSquare />
             </button>
-            <button class="btn btn-danger m-2" @click="deleteUser">
+            <button class="btn btn-danger m-2" @click="deleteUser(user.id)">
               <BIconTrash />
             </button>
           </td>
@@ -75,49 +78,33 @@ export default {
   name: "UserTable",
   data() {
     return {
-      users: [
-        {
-          id: 1,
-          name: "Abiola Esther",
-          email: "Abiola@Abiola.com",
-        },
-        {
-          id: 2,
-          name: "Robert V. Kratz",
-          email: "Philosophy@phil.com",
-        },
-        {
-          id: 3,
-          name: "Kristen Anderson",
-          email: "Economics@eco.com",
-        },
-      ],
+      users: [],
     };
   },
-  computed: {
-    columns: function columns() {
-      if (this.users.length == 0) {
-        return [];
-      }
-      return Object.keys(this.users[0]);
+  // computed: {
+  //   columns: function columns() {
+  //     if (this.users.length == 0) {
+  //       return [];
+  //     }
+  //     return Object.keys(this.users[0]);
+  //   },
+  // },
+
+  // async updateUser(id) {
+  //   const { data } = await axios.post("https://api/users/" + id);
+  //   console.log(data);
+  // },
+  methods: {
+    async deleteUser(id) {
+      await axios.delete("http://localhost:4000/api/users/" + id);
     },
   },
-  methods: {
-    async fetchUsers() {
-      const { data } = await axios.get("https://api/users");
-      this.users = data;
-    },
-    async mounted() {
-      await this.fetchUsers();
-    },
-    async updateUser(id) {
-      const { data } = await axios.post("https://api/users/" + id);
-      console.log(data);
-    },
-    async deleteUser(id) {
-      const { data } = await axios.delete("https://api/users/" + id);
-      console.log(data);
-    },
+
+  async mounted() {
+    const { data } = await axios.get("http://localhost:4000/api/users");
+    for (let i = 0; i < data.data.length; i++) {
+      this.users.push(data.data[i]);
+    }
   },
   components: {
     FormUser,

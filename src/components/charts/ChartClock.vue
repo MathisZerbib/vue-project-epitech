@@ -1,10 +1,19 @@
 <template>
-  <Doughnut :data="chartData" :options="chartOptions" />
+  <Doughnut
+    :chart-options="chartOptions"
+    :chart-data="chartData"
+    :chart-id="chartId"
+    :dataset-id-key="datasetIdKey"
+    :plugins="plugins"
+    :css-classes="cssClasses"
+    :styles="styles"
+    :width="width"
+    :height="height"
+    :timer="timer" 
+  />
 </template>
 
 <script>
-import { defineComponent, h } from "vue";
-
 import { Doughnut } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -16,8 +25,9 @@ import {
 } from "chart.js";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
+const TIME_LIMIT = 60;
 
-export default defineComponent({
+export default {
   name: "DoughnutChart",
   components: {
     Doughnut,
@@ -40,34 +50,76 @@ export default defineComponent({
       type: String,
     },
   },
-  setup(props) {
-    const chartData = {
-      labels: ["Temps travaillé", "Temps restant"],
-      datasets: [
+  data() {
+    return {
+      timer: 50,
+      chartData: {
+        labels: ["Temps travaillé", "Temps restant"],
+        datasets: [
+          {
+            backgroundColor: ["#41B883", "#E46651"],
+            data: [20, 40],
+          },
+        ],
+      },
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: 140,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+      plugins: [
         {
-          backgroundColor: ["#41B883", "#E46651"],
-          data: [20, 40],
+          id: "text",
+          beforeDraw: function (chart) {
+            var width = chart.width,
+              height = chart.height,
+              ctx = chart.ctx;
+
+            ctx.restore();
+            var fontSize = (height / 200).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+
+            var text = "4h 30m 60s",
+              textX = Math.round((width - ctx.measureText(text).width) / 2),
+              textY = height / 2;
+
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+          },
         },
       ],
     };
-
-    const chartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: 170,
-    };
-
-    return () =>
-      h(Doughnut, {
-        chartData,
-        chartOptions,
-        chartId: props.chartId,
-        width: props.width,
-        height: props.height,
-        cssClasses: props.cssClasses,
-        styles: props.styles,
-        plugins: props.plugins,
-      });
   },
-});
+  methods: {
+    countDownTimer() {
+      this.interval = setInterval(() => {
+        if (this.countDown === 0) {
+          clearInterval(this.interval);
+        } else {
+          this.countDown--;
+        }
+      }, 1000);
+    },
+  },
+  // const drawText = {
+
+  //   width: this.chart.width,
+  //   height: this.chart.height,
+  //   fontSize:(height / 114).toFixed(2),
+  //   font: fontSize + "em Verdana",
+  //   textBaseline: "middle",
+
+  //   text: "82%",
+  //     textX: Math.round((width - this.chart.ctx.measureText(text).width) / 2),
+  //     textY: height / 2,
+
+  //   fillText(text, textX, textY);
+  // },
+};
 </script>
