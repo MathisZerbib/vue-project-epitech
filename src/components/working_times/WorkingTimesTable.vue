@@ -2,7 +2,7 @@
   <div>
     <FormUser />
   </div>
-  <div v-if="!users">
+  <div v-if="!workingtimes">
     <p>Loading ...</p>
   </div>
 
@@ -12,16 +12,15 @@
         <tr>
           <!-- <th v-for="col in columns" v-bind:key="col">{{ col }}</th> -->
           <th>ID</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Actions</th>
+          <th>Start</th>
+          <th>End</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" v-bind:key="user">
-          <td>{{ user.id }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
+        <tr v-for="workingtime in workingtimes" v-bind:key="workingtime">
+          <td>{{ workingtime.id }}</td>
+          <td>{{ workingtime.start }}</td>
+          <td>{{ workingtime.end }}</td>
           <td class="d-flex justify-content-center">
             <button
               class="btn btn-primary m-2"
@@ -30,7 +29,10 @@
             >
               <BIconPencilSquare />
             </button>
-            <button class="btn btn-danger m-2" @click="deleteUser(user.id)">
+            <button
+              class="btn btn-danger m-2"
+              @click="deleteWorkingTime(workingtime.id)"
+            >
               <BIconTrash />
             </button>
           </td>
@@ -73,41 +75,39 @@
 </template>
 <script>
 import axios from "axios";
-import FormUser from "../form_user/FormUser.vue";
 export default {
-  name: "UserTable",
+  name: "WorkingTimesTable",
   data() {
     return {
-      users: [],
+      workingtimes: [],
     };
   },
   // computed: {
   //   columns: function columns() {
-  //     if (this.users.length == 0) {
+  //     if (this.workingtimes.length == 0) {
   //       return [];
   //     }
-  //     return Object.keys(this.users[0]);
+  //     return Object.keys(this.workingtimes[0]);
   //   },
   // },
 
   // async updateUser(id) {
-  //   const { data } = await axios.post("https://api/users/" + id);
+  //   const { data } = await axios.post("https://api/workingtimes/" + id);
   //   console.log(data);
   // },
   methods: {
-    async deleteUser(id) {
-      await axios.delete("http://localhost:4000/api/users/" + id);
+    async deleteWorkingTime(id) {
+      await axios.delete("http://localhost:4000/api/workingtime/" + id);
     },
   },
 
   async mounted() {
-    const { data } = await axios.get("http://localhost:4000/api/users");
+    const { data } = await axios.get("http://localhost:4000/api/workingtime/1");
     for (let i = 0; i < data.data.length; i++) {
-      this.users.push(data.data[i]);
+      data.data[i].start = data.data[i].start.substring(11, 16);
+      data.data[i].end = data.data[i].end.substring(11, 16);
+      this.workingtimes.push(data.data[i]);
     }
-  },
-  components: {
-    FormUser,
   },
 };
 </script>
