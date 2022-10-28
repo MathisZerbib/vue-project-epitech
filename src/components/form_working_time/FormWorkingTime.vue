@@ -2,6 +2,7 @@
   <form
     style="height: 100px"
     class="d-flex flex-row justify-content-around align-items-center"
+    v-on:submit.prevent="onSubmit"
   >
     <div class="form-group">
       <label for="inputStartTime">Start Time</label>
@@ -32,6 +33,15 @@
 </template>
 
 <script>
+import axios from "axios";
+var date = new Date();
+var current_date =
+  date.getFullYear() +
+  "-" +
+  ("0" + (date.getMonth() + 1)).slice(-2) +
+  "-" +
+  date.getDate();
+
 export default {
   data() {
     return {
@@ -42,9 +52,22 @@ export default {
     };
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-      alert(JSON.stringify(this.form));
+    onSubmit() {
+      this.createWokingTime();
+    },
+    createWokingTime: async function () {
+      await axios
+        .post("http://localhost:4000/api/workingtime/1", {
+          time: {
+            start: current_date + " " + this.startTime,
+            end: current_date + " " + this.endTime,
+          },
+        })
+        .then((response) => console.log("works", response))
+        .catch(function (error) {
+          // error
+          console.log(error);
+        });
     },
     onReset(event) {
       event.preventDefault();
