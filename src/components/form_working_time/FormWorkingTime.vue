@@ -6,6 +6,7 @@
     <div class="form-group">
       <label for="inputStartTime">Start Time</label>
       <input
+        v-model="startTime"
         type="time"
         class="w-100"
         id="inputStartTime"
@@ -18,6 +19,7 @@
     <div class="form-group">
       <label for="inputEndTime">End Time</label>
       <input
+        v-model="endTime"
         type="time"
         class="w-100"
         id="inputEndTime"
