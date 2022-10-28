@@ -1,15 +1,17 @@
 <template>
-  <Bar
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-  />
+  <div class="d-flex justify-content-around m-3">
+    <Bar
+      :chart-options="chartOptions"
+      :chart-data="chartData"
+      :chart-id="chartId"
+      :dataset-id-key="datasetIdKey"
+      :plugins="plugins"
+      :css-classes="cssClasses"
+      :styles="styles"
+      :width="width"
+      :height="height"
+    />
+  </div>
 </template>
 
 <script>
@@ -47,11 +49,11 @@ export default {
     },
     width: {
       type: Number,
-      default: 200,
+      default: 300,
     },
     height: {
       type: Number,
-      default: 200,
+      default: 300,
     },
     cssClasses: {
       default: "",
@@ -69,8 +71,8 @@ export default {
   data() {
     return {
       chartData: {
-        labels: ["January", "February", "March"],
-        datasets: [{ data: [40, 20, 12] }],
+        labels: ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"],
+        datasets: [{ data: [10, 20, 30, 20, 50] }],
       },
       chartOptions: {
         responsive: true,

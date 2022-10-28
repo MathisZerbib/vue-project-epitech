@@ -85,7 +85,7 @@ export default {
             ctx.font = fontSize + "em sans-serif";
             ctx.textBaseline = "middle";
 
-            var text = "4h 30m 20s",
+            var text = "4h 20m 00s",
               textX = Math.round((width - ctx.measureText(text).width) / 2),
               textY = height / 2;
 
