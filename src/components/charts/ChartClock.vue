@@ -25,7 +25,7 @@ import {
 } from "chart.js";
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
-const TIME_LIMIT = 60;
+// const TIME_LIMIT = 60;
 
 export default {
   name: "DoughnutChart",
@@ -85,7 +85,7 @@ export default {
             ctx.font = fontSize + "em sans-serif";
             ctx.textBaseline = "middle";
 
-            var text = "4h 30m 60s",
+            var text = "4h 30m 20s",
               textX = Math.round((width - ctx.measureText(text).width) / 2),
               textY = height / 2;
 

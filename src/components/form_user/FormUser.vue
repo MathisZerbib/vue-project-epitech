@@ -2,30 +2,29 @@
   <form
     style="height: 100px"
     class="d-flex flex-row justify-content-around align-items-center"
+    v-on:submit.prevent="onSubmit"
   >
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input
-        type="email"
-        class="form-control"
-        id="exampleInputEmail1"
-        placeholder="Enter email"
-      />
-    </div>
     <div class="form-group">
       <label for="exampleInputName">Name</label>
       <input
+        v-model="name"
         type="text"
         class="form-control"
         id="exampleInputName"
         placeholder="Enter name"
       />
     </div>
-    <button
-      type="submit"
-      class="btn btn-primary btn btn-primary mt-3"
-      v-on:submit.prevent="onSubmit"
-    >
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input
+        v-model="email"
+        type="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        placeholder="Enter email"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary btn btn-primary mt-3">
       Submit
     </button>
   </form>
@@ -45,16 +44,15 @@ export default {
     };
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
-      this.createUser(this.form.email, this.form.name);
+    onSubmit() {
+      this.createUser();
     },
-    createUser: async function (email, name) {
+    createUser: async function () {
       await axios
-        .post('"https://localhost:4000/api/users', {
+        .post("http://localhost:4000/api/users", {
           user: {
-            username: name,
-            email: email,
+            username: this.name,
+            email: this.email,
           },
         })
         .then((response) => console.log("works", response))
