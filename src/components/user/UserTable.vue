@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormUser />
+    <FormUser v-on:submit="refreshUsers" />
   </div>
   <div v-if="!users">
     <p>Loading ...</p>
@@ -27,6 +27,7 @@
               class="btn btn-primary m-2"
               data-bs-target="#myModal"
               data-bs-toggle="modal"
+              @click="setSelectedUser(user)"
             >
               <BIconPencilSquare />
             </button>
@@ -42,7 +43,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
+            <h5 class="modal-title">hello modal</h5>
             <button
               type="button"
               class="btn-close"
@@ -51,25 +52,55 @@
             ></button>
           </div>
           <div class="modal-body">
-            <p>Modal body text goes here.</p>
+            <p>Modify this user.</p>
+            <form
+              style="height: 100px"
+              class="d-flex flex-row justify-content-around align-items-center"
+              v-on:submit.prevent="onSubmit"
+            >
+              <div class="form-group">
+                <label for="exampleInputName">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputName"
+                  placeholder="Enter name"
+                  v-model="this.selectedUser.username"
+                />
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  placeholder="Enter email"
+                  v-model="this.selectedUser.email"
+                />
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              @click="resetSelectedUser()"
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="modifyUser(this.selectedUser)"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- <li class="nav-bar">
-            <RouterLink class="nav-link" to="/newUser">Add New User</RouterLink>
-          </li> -->
 </template>
 <script>
 import axios from "axios";
@@ -79,6 +110,7 @@ export default {
   data() {
     return {
       users: [],
+      selectedUser: {},
     };
   },
   // computed: {
@@ -98,13 +130,35 @@ export default {
     async deleteUser(id) {
       await axios.delete("http://localhost:4000/api/users/" + id);
     },
+
+    setSelectedUser(user) {
+      this.selectedUser = user;
+    },
+    async modifyUser(selectedUser) {
+      await axios.put(
+        "http://localhost:4000/api/users/" + this.selectedUser.id,
+        {
+          user: selectedUser,
+        }
+      );
+    },
+
+    resetSelectedUser() {
+      this.selectedUser = {};
+    },
+    async getAllUsers() {
+      this.users = [];
+      const { data } = await axios.get("http://localhost:4000/api/users");
+      for (let i = 0; i < data.data.length; i++) {
+        this.users.push(data.data[i]);
+      }
+    },
   },
 
   async mounted() {
-    const { data } = await axios.get("http://localhost:4000/api/users");
-    for (let i = 0; i < data.data.length; i++) {
-      this.users.push(data.data[i]);
-    }
+    await this.getAllUsers();
+  },
+  computed: {
   },
   components: {
     FormUser,

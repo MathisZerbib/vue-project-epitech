@@ -29,31 +29,12 @@ import {
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 // const TIME_LIMIT = 60;
 export default {
-  name: "DoughnutChart",
+  name: "PieChart",
   components: {
     Doughnut,
   },
-  props: {
-    chartId: {
-      type: String,
-      default: "doughnut-chart",
-    },
-    width: {
-      type: Number,
-      default: 400,
-    },
-    height: {
-      type: Number,
-      default: 400,
-    },
-    cssClasses: {
-      default: "",
-      type: String,
-    },
-  },
   data() {
     return {
-      now: "",
       chartData: {
         labels: ["Temps travaillé", "Temps restant"],
         datasets: [
@@ -66,7 +47,7 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: 140,
+        cutout: 0,
         plugins: {
           legend: {
             display: false,
@@ -97,34 +78,9 @@ export default {
       // ],
     };
   },
-  mounted() {
-    this.updateNow();
-    setInterval(this.updateNow.bind(this), 1000);
-  },
+  mounted() {},
 
-  methods: {
-    updateNow() {
-      // this.now = Math.round(Date.now() / 1000);
-      let unix_timestamp = Math.round(Date.now() / 1000);
-      // Create a new JavaScript Date object based on the timestamp
-      // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-      var date = new Date(unix_timestamp * 1000);
-
-      date.setHours(0, 0, 0);
-      // Hours part from the timestamp
-      var hours = date.getHours();
-      // Minutes part from the timestamp
-      var minutes = "0" + date.getMinutes();
-      // Seconds part from the timestamp
-      var seconds = "0" + date.getSeconds();
-
-      // Will display time in 10:30:23 format
-      var formattedTime =
-        hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
-
-      this.now = formattedTime;
-    },
-  },
+  methods: {},
   // const drawText = {
 
   //   width: this.chart.width,
