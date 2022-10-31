@@ -20,7 +20,9 @@ import FormUser from "../components/form_user/FormUser.vue";
       <PieChart />
     </div>
     <UserTable />
-    <WorkingTime />
-    <WorkingTimes />
+    <div class="d-flex flex-direction-row justify-content-around my-5">
+      <WorkingTime />
+      <WorkingTimes />
+    </div>
   </main>
 </template>

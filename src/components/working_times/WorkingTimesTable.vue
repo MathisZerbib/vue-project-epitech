@@ -55,7 +55,6 @@
           <div class="modal-body">
             <p>Modal body text goes here.</p>
             <form
-              style="height: 100px"
               class="d-flex flex-row justify-content-around align-items-center"
               v-on:submit.prevent="onSubmit"
             >
@@ -82,8 +81,6 @@
                   placeholder="Enter the End time"
                 />
               </div>
-              <br />
-              <button type="submit" class="btn btn-primary">Submit</button>
             </form>
           </div>
           <div class="modal-footer">
