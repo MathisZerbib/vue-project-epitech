@@ -1,21 +1,19 @@
 <template>
-  <div class="container-clock">
-    <div class="card">
-      <h5 class="card-title text-center my-3">Badgeage</h5>
-      <div class="card-body">
-        <Doughnut
-          :chart-options="chartOptions"
-          :chart-data="chartData"
-          :chart-id="chartId"
-          :dataset-id-key="datasetIdKey"
-          :plugins="plugins"
-          :css-classes="cssClasses"
-          :styles="styles"
-          :width="width"
-          :height="height"
-          :timer="this.now"
-        />
-      </div>
+  <div class="card">
+    <h5 class="text-center my-3">Badgeage</h5>
+    <div class="card-body">
+      <Doughnut
+        :chart-options="chartOptions"
+        :chart-data="chartData"
+        :chart-id="chartId"
+        :dataset-id-key="datasetIdKey"
+        :plugins="plugins"
+        :css-classes="cssClasses"
+        :styles="styles"
+        :width="300"
+        :height="300"
+        :timer="this.now"
+      />
     </div>
   </div>
 </template>
@@ -51,9 +49,9 @@ export default {
         ],
       },
       chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: 140,
+        responsive: false,
+        maintainAspectRatio: true,
+        cutout: 100,
         plugins: {
           legend: {
             display: true,
