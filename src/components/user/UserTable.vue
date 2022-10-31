@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormUser v-on:submit="refreshUsers" />
+    <FormUser />
   </div>
   <div v-if="!users">
     <p>Loading ...</p>
@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" v-bind:key="user">
+        <tr v-for="(user, index) in users" v-bind:key="index">
           <td>{{ user.id }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
@@ -92,7 +92,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click="modifyUser(this.selectedUser)"
+              @click="modifyUser(this.selectedUser.id)"
             >
               Save changes
             </button>
@@ -105,12 +105,11 @@
 <script>
 import axios from "axios";
 import FormUser from "../form_user/FormUser.vue";
+import { mapState } from "vuex";
 export default {
   name: "UserTable",
   data() {
     return {
-      users: [],
-      selectedUser: {},
     };
   },
   // computed: {
@@ -126,39 +125,34 @@ export default {
   //   const { data } = await axios.post("https://api/users/" + id);
   //   console.log(data);
   // },
+
   methods: {
     async deleteUser(id) {
       await axios.delete("http://localhost:4000/api/users/" + id);
     },
 
     setSelectedUser(user) {
-      this.selectedUser = user;
+      this.$store.dispatch("setSelectedUser", user);
     },
-    async modifyUser(selectedUser) {
-      await axios.put(
-        "http://localhost:4000/api/users/" + this.selectedUser.id,
-        {
-          user: selectedUser,
-        }
-      );
+
+    async modifyUser(id) {
+      this.$store.dispatch("updateUser", id);
     },
 
     resetSelectedUser() {
       this.selectedUser = {};
     },
-    async getAllUsers() {
-      this.users = [];
-      const { data } = await axios.get("http://localhost:4000/api/users");
-      for (let i = 0; i < data.data.length; i++) {
-        this.users.push(data.data[i]);
-      }
-    },
   },
 
   async mounted() {
-    await this.getAllUsers();
+    this.$store.dispatch("loadUsers");
   },
   computed: {
+    ...mapState(["users"]),
+    ...mapState(["selectedUser"]),
+  },
+  beforeUnmount() {
+    this.unsubscribe();
   },
   components: {
     FormUser,

@@ -1,18 +1,23 @@
 <template>
-  <Doughnut
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-    :timer="count"
-  />
-
-  {{ this.now }}
+  <div class="container-clock">
+    <div class="card">
+      <h5 class="card-title text-center my-3">Badgeage</h5>
+      <div class="card-body">
+        <Doughnut
+          :chart-options="chartOptions"
+          :chart-data="chartData"
+          :chart-id="chartId"
+          :dataset-id-key="datasetIdKey"
+          :plugins="plugins"
+          :css-classes="cssClasses"
+          :styles="styles"
+          :width="width"
+          :height="height"
+          :timer="this.now"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -33,24 +38,6 @@ export default {
   components: {
     Doughnut,
   },
-  props: {
-    chartId: {
-      type: String,
-      default: "doughnut-chart",
-    },
-    width: {
-      type: Number,
-      default: 400,
-    },
-    height: {
-      type: Number,
-      default: 400,
-    },
-    cssClasses: {
-      default: "",
-      type: String,
-    },
-  },
   data() {
     return {
       now: "",
@@ -69,32 +56,32 @@ export default {
         cutout: 140,
         plugins: {
           legend: {
-            display: false,
+            display: true,
           },
         },
       },
-      // plugins: [
-      //   {
-      //     id: "text",
-      //     beforeDraw: function (chart) {
-      //       var width = chart.width,
-      //         height = chart.height,
-      //         ctx = chart.ctx;
+      plugins: [
+        {
+          id: "text",
+          beforeDraw: function (chart) {
+            var width = chart.width,
+              height = chart.height,
+              ctx = chart.ctx;
 
-      //       ctx.restore();
-      //       var fontSize = (height / 200).toFixed(2);
-      //       ctx.font = fontSize + "em sans-serif";
-      //       ctx.textBaseline = "middle";
+            ctx.restore();
+            var fontSize = (height / 200).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
 
-      //       var text = this.now,
-      //         textX = Math.round((width - ctx.measureText(text).width) / 2),
-      //         textY = height / 2;
+            var text = this.timer || "2h30m",
+              textX = Math.round((width - ctx.measureText(text).width) / 2),
+              textY = height / 2;
 
-      //       ctx.fillText(text, textX, textY);
-      //       ctx.save();
-      //     },
-      //   },
-      // ],
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+          },
+        },
+      ],
     };
   },
   mounted() {

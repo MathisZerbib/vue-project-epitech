@@ -9,7 +9,7 @@ import WorkingTimes from "../components/working_times/WorkingTimesTable.vue";
 
 <template>
   <main>
-    <h1>Time Management Home</h1>
+    <h1 class="text-center">Time Management Home</h1>
     <ChartClock />
     <UserTable />
     <BarChart />
