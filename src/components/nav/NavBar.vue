@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from "vue-router";
 <template>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <button
+      <!-- <button
         class="navbar-toggler"
         type="button"
         data-toggle="collapse"
@@ -15,14 +15,14 @@ import { RouterLink, RouterView } from "vue-router";
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <RouterLink class="nav-link" to="/">Home</RouterLink>
-          <li class="navbar-nav">
+          <!-- <li class="navbar-nav">
             <RouterLink class="nav-link" to="/userboard">User</RouterLink>
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>

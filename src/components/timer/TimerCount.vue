@@ -7,7 +7,7 @@ export default {
   name: "TimerCount",
   data() {
     return {
-      countDown: 10,
+      countDown: 100,
     };
   },
   methods: {

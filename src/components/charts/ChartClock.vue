@@ -1,16 +1,23 @@
 <template>
-  <Doughnut
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-    :timer="timer" 
-  />
+  <div class="container-clock">
+    <div class="card">
+      <h5 class="card-title text-center my-3">Badgeage</h5>
+      <div class="card-body">
+        <Doughnut
+          :chart-options="chartOptions"
+          :chart-data="chartData"
+          :chart-id="chartId"
+          :dataset-id-key="datasetIdKey"
+          :plugins="plugins"
+          :css-classes="cssClasses"
+          :styles="styles"
+          :width="width"
+          :height="height"
+          :timer="this.now"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,33 +33,14 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 // const TIME_LIMIT = 60;
-
 export default {
   name: "DoughnutChart",
   components: {
     Doughnut,
   },
-  props: {
-    chartId: {
-      type: String,
-      default: "doughnut-chart",
-    },
-    width: {
-      type: Number,
-      default: 400,
-    },
-    height: {
-      type: Number,
-      default: 400,
-    },
-    cssClasses: {
-      default: "",
-      type: String,
-    },
-  },
   data() {
     return {
-      timer: 50,
+      now: "",
       chartData: {
         labels: ["Temps travaillé", "Temps restant"],
         datasets: [
@@ -68,7 +56,7 @@ export default {
         cutout: 140,
         plugins: {
           legend: {
-            display: false,
+            display: true,
           },
         },
       },
@@ -85,7 +73,7 @@ export default {
             ctx.font = fontSize + "em sans-serif";
             ctx.textBaseline = "middle";
 
-            var text = "4h 20m 00s",
+            var text = this.timer || "2h30m",
               textX = Math.round((width - ctx.measureText(text).width) / 2),
               textY = height / 2;
 
@@ -96,15 +84,32 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.updateNow();
+    setInterval(this.updateNow.bind(this), 1000);
+  },
+
   methods: {
-    countDownTimer() {
-      this.interval = setInterval(() => {
-        if (this.countDown === 0) {
-          clearInterval(this.interval);
-        } else {
-          this.countDown--;
-        }
-      }, 1000);
+    updateNow() {
+      // this.now = Math.round(Date.now() / 1000);
+      let unix_timestamp = Math.round(Date.now() / 1000);
+      // Create a new JavaScript Date object based on the timestamp
+      // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+      var date = new Date(unix_timestamp * 1000);
+
+      date.setHours(0, 0, 0);
+      // Hours part from the timestamp
+      var hours = date.getHours();
+      // Minutes part from the timestamp
+      var minutes = "0" + date.getMinutes();
+      // Seconds part from the timestamp
+      var seconds = "0" + date.getSeconds();
+
+      // Will display time in 10:30:23 format
+      var formattedTime =
+        hours + ":" + minutes.substr(-2) + ":" + seconds.substr(-2);
+
+      this.now = formattedTime;
     },
   },
   // const drawText = {
