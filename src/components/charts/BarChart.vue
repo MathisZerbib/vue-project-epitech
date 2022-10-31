@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-around">
-    <div class="card">
+    <div class="card rounded shadow">
       <h5 class="text-center my-3">Ma Semaine</h5>
       <div class="card-body">
         <Bar
@@ -11,8 +11,8 @@
           :plugins="plugins"
           :css-classes="cssClasses"
           :styles="styles"
-          :width="300"
-          :height="300"
+          :width="350"
+          :height="350"
         />
       </div>
     </div>
@@ -54,7 +54,7 @@ export default {
         aspectRatio: 1,
         plugins: {
           legend: {
-            display: true,
+            display: false,
           },
         },
       },

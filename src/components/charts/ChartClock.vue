@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card rounded shadow">
     <h5 class="text-center my-3">Badgeage</h5>
     <div class="card-body">
       <Doughnut
@@ -10,10 +10,14 @@
         :plugins="plugins"
         :css-classes="cssClasses"
         :styles="styles"
-        :width="300"
-        :height="300"
+        :width="350"
+        :height="350"
         :timer="this.now"
       />
+      <div class="d-flex align-items-center justify-content-around my-3">
+        <button type="button" class="btn btn-success">Entrée</button>
+        <button type="button" class="btn btn-danger">Sortie</button>
+      </div>
     </div>
   </div>
 </template>
@@ -54,7 +58,7 @@ export default {
         cutout: 100,
         plugins: {
           legend: {
-            display: true,
+            display: false,
           },
         },
       },
