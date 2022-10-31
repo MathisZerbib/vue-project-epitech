@@ -47,8 +47,10 @@ export default new vuex.Store({
             user: selectedUser,
           })
           .then((data) => {
-            console.log(data);
-            commit("UPDATE_USER", selectedUser);
+            if (data.data.response.status === 200) {
+              console.log("Success Update", data.data);
+              commit("UPDATE_USER", selectedUser);
+            }
           });
       } catch (error) {
         console.log("Error while update");
@@ -59,12 +61,9 @@ export default new vuex.Store({
     SET_USERS(state, users) {
       state.users = users;
     },
-    UPDATE_USER(state, selectedUser) {
-      state.selectedUser = selectedUser;
-    },
-    DELETE_USER(state, selectedUser) {
-      state.users.filter((user) => user !== selectedUser);
-    },
+    // DELETE_USER(state, selectedUser) {
+    //   state.users.filter((user) => user !== selectedUser);
+    // },
     SET_SELECTED_USER(state, selectedUser) {
       state.selectedUser = selectedUser;
     },
