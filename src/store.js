@@ -15,7 +15,9 @@ export default new vuex.Store({
       let users = [];
       let result;
       try {
-        result = await axios.get("http://localhost:4000/api/users");
+        result = await axios.get(
+          "http://" + import.meta.env.VITE_API_ENDPOINT + ":4000/api/users"
+        );
       } catch (error) {
         // Handle error
         return error;
@@ -43,9 +45,15 @@ export default new vuex.Store({
       console.log();
       try {
         await axios
-          .put("http://localhost:4000/api/users/" + selectedUser.id, {
-            user: selectedUser,
-          })
+          .put(
+            "http://" +
+              import.meta.env.VITE_API_ENDPOINT +
+              ":4000/api/users/" +
+              selectedUser.id,
+            {
+              user: selectedUser,
+            }
+          )
           .then((data) => {
             if (data.data.response.status === 200) {
               console.log("Success Update", data.data);
