@@ -55,12 +55,17 @@ export default {
     },
     createWokingTime: async function () {
       await axios
-        .post("http://localhost:4000/api/workingtime/1", {
-          time: {
-            start: current_date + " " + this.startTime,
-            end: current_date + " " + this.endTime,
-          },
-        })
+        .post(
+          "http://" +
+            import.meta.env.VITE_API_ENDPOINT +
+            ":4000/api/workingtime/1",
+          {
+            time: {
+              start: current_date + " " + this.startTime,
+              end: current_date + " " + this.endTime,
+            },
+          }
+        )
         .then((response) => console.log("works", response))
         .catch(function (error) {
           // error

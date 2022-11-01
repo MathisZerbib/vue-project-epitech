@@ -126,7 +126,9 @@ export default {
 
   methods: {
     async deleteUser(id) {
-      await axios.delete("http://localhost:4000/api/users/" + id);
+      await axios.delete(
+        "http://" + import.meta.env.VITE_API_ENDPOINT + ":4000/api/users/" + id
+      );
     },
 
     setSelectedUser(user) {
