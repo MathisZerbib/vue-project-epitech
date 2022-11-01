@@ -52,12 +52,15 @@ export default {
     },
     createUser: async function () {
       await axios
-        .post("http://localhost:4000/api/users", {
-          user: {
-            username: this.name,
-            email: this.email,
-          },
-        })
+        .post(
+          "http://" + import.meta.env.VITE_API_ENDPOINT + ":4000/api/users",
+          {
+            user: {
+              username: this.name,
+              email: this.email,
+            },
+          }
+        )
         .then((response) => console.log("works", response))
         .catch(function (error) {
           // error
