@@ -14,12 +14,12 @@ import FormUser from "../components/form_user/FormUser.vue";
     <div class="d-flex flex-direction-row justify-content-around my-5">
       <ChartClock />
       <BarChart />
+      <PieChart />
     </div>
     <div class="d-flex flex-direction-row justify-content-around my-5">
       <FormUser />
-      <PieChart />
+      <UserTable />
     </div>
-    <UserTable />
     <div class="d-flex flex-direction-row justify-content-around my-5">
       <WorkingTime />
       <WorkingTimes />
